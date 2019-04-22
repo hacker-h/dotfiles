@@ -2,5 +2,5 @@
 
 ## to be done
 
-- [ ] terraform wrapper
+- [x] terraform wrapper
 - [ ] docker wrapper 🐳
