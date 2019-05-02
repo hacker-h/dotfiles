@@ -1,6 +1,7 @@
 #!/bin/bash
 RAM=4096
 DISK=50000
+CPU_CORES=2
 MACHINE_NAME="mymachine"
 
 set -eu
@@ -36,7 +37,7 @@ else
     echo "No machine existing yet."
 fi
 echo "Creating new machine.."
-docker-machine create -d virtualbox --virtualbox-cpu-count=2 --virtualbox-memory="${RAM}" --virtualbox-disk-size="${DISK}" "${MACHINE_NAME}"
+docker-machine create -d virtualbox --virtualbox-cpu-count="${CPU_CORES}" --virtualbox-memory="${RAM}" --virtualbox-disk-size="${DISK}" "${MACHINE_NAME}"
 
 docker-machine regenerate-certs "${MACHINE_NAME}" -f
 
