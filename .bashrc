@@ -15,12 +15,11 @@ terraform() {
 
 # docker
 if [[ "$OSTYPE" == "msys" ]]; then
-    # TODO
     docker() {
         if [[ $@ == "create"* ]] || [[ $@ == "run"* ]]; then
-        command docker $(echo "$@" | sed 's~-v /~-v //~g' | sed 's~:/~://~g')
+        command winpty docker $(echo "$@" | sed 's~-v /~-v //~g' | sed 's~:/~://~g')
         else
-            command docker "$@"
+            command winpty docker "$@"
         fi
     }
 elif [[ "$OSTYPE" == "linux-gnu" ]] || [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "win32" ]] || [[ "$OSTYPE" == "freebsd"* ]]; then
