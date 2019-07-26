@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# git
+git config --global core.autocrlf true
+git config --global user.name "Henning Häcker"
+git config --global user.email "henning.haecker+github.com@gmail.com"
+
 # terraform
 alias tf="terraform"
 alias ta="terraform apply"
