@@ -3,4 +3,4 @@
 ## to be done
 
 - [x] terraform wrapper
-- [ ] docker wrapper 🐳
+- [ ] curl one-liner
