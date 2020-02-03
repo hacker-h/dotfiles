@@ -3,10 +3,7 @@
 ## Installation
 
 ```
-curl -sfL https://raw.githubusercontent.com/hacker-h/dotfiles/master/.bashrc >> ~/.bashrc
+find ~/src/github.com/hacker-h/dotfiles || git clone git@github.com:hacker-h/dotfiles.git ~/src/github.com/hacker-h/dotfiles
+find ~/.bash_aliases && mv ~/.bash_aliases ~/.bash_aliases.old
+ln -s ~/.bash_aliases ~/src/github.com/hacker-h/dotfiles
 ```
-
-## to be done
-
-- [x] terraform wrapper
-- [x] curl one-liner
