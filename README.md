@@ -1,4 +1,4 @@
-# dotfiles for cygwin bash
+# dotfiles
 
 ## Install / Upgrade
 
