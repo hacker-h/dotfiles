@@ -1,22 +1,12 @@
 #!/bin/bash
 
+# docker
+alias dprune="docker system prune -f && docker volume prune -f"
+
 # git
 git config --global core.autocrlf false
 git config --global user.name "Henning Häcker"
 git config --global user.email "henning.haecker+github.com@gmail.com"
-
-# terraform
-alias tf="terraform"
-alias ta="terraform apply"
-alias td="terraform destroy"
-alias to="terraform output"
-terraform() {
-    if [[ $@ == "apply"* ]] || [[ $@ == "destroy"* ]]; then
-        command terraform $(echo "$@" | sed 's/-y/--auto-approve/g')
-    else
-        command terraform "$@"
-    fi
-}
 
 # pip
 pip3() {
@@ -31,6 +21,19 @@ pip() {
         command pip --default-timeout=0.3 "$@"
     else
         command pip "$@"
+    fi
+}
+
+# terraform
+alias tf="terraform"
+alias ta="terraform apply"
+alias td="terraform destroy"
+alias to="terraform output"
+terraform() {
+    if [[ $@ == "apply"* ]] || [[ $@ == "destroy"* ]]; then
+        command terraform $(echo "$@" | sed 's/-y/--auto-approve/g')
+    else
+        command terraform "$@"
     fi
 }
 
