@@ -37,6 +37,9 @@ terraform() {
     fi
 }
 
+
+alias code="code --user-data-dir ${HOME}"
+
 # other
 alias apt="sudo apt"
 alias refresh="source ~/.bashrc"
