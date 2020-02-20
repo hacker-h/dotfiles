@@ -24,6 +24,8 @@ pip() {
     fi
 }
 
+
+
 # terraform
 alias tf="terraform"
 alias ta="terraform apply"
@@ -37,7 +39,10 @@ terraform() {
     fi
 }
 
+# podman
+alias docker="podman"
 
+# vscode
 alias code="code --user-data-dir ${HOME}"
 
 # other
