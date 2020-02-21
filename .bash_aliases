@@ -47,4 +47,5 @@ alias code="code --user-data-dir ${HOME}"
 
 # other
 alias apt="sudo apt"
+alias fix-audio="pulseaudio -k && sudo alsa force-reload"
 alias refresh="source ~/.bashrc"
