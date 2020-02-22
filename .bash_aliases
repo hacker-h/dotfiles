@@ -40,7 +40,7 @@ terraform() {
 }
 
 # podman
-alias docker="podman"
+which docker > /dev/null || alias docker="podman"
 
 # vscode
 alias code="code --user-data-dir ${HOME}"
