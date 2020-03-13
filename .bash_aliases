@@ -43,7 +43,7 @@ terraform() {
 which docker > /dev/null || alias docker="podman"
 
 # vscode
-alias code="code --user-data-dir ${HOME}"
+alias scode="sudo code --user-data-dir ${HOME}"
 
 # other
 alias apt="sudo apt"
