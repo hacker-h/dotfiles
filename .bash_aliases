@@ -49,7 +49,7 @@ upgrade_terraform() {
 }
 
 # podman
-which docker > /dev/null || alias docker="podman"
+which docker 1> /dev/null 2> /dev/null || alias docker="podman"
 
 # vscode
 alias scode="sudo code --user-data-dir ${HOME}"
