@@ -48,9 +48,6 @@ upgrade_terraform() {
     terraform version
 }
 
-# podman
-which docker 1> /dev/null 2> /dev/null || alias docker="podman"
-
 # vscode
 alias scode="sudo code --user-data-dir ${HOME}"
 
