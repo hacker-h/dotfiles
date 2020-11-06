@@ -39,6 +39,10 @@ terraform() {
     fi
 }
 
+upgrade_dotfiles() {
+    bash ~/src/github.com/hacker-h/dotfiles/install.bash
+}
+
 upgrade_terraform() {
     curl -O $(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')_linux_amd64.zip")
     unzip ./terraform_*.zip
