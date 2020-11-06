@@ -54,6 +54,8 @@ alias scode="sudo code --user-data-dir ${HOME}"
 # other
 alias apt="sudo apt"
 alias fix-audio="pulseaudio -k && sudo alsa force-reload"
+alias l="ls"
+alias ll="ls -lah"
 alias refresh="source ~/.bashrc"
 
 HISTTIMEFORMAT='%F %T '
@@ -66,3 +68,4 @@ shopt -s histappend                 # append to history, don't overwrite it
 shopt -s cmdhist
 # save multi-line commands to the history with embedded newlines
 shopt -s lithist
+
