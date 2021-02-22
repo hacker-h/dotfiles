@@ -8,7 +8,7 @@ git config --global core.autocrlf false
 git config --global user.name "Henning Häcker"
 git config --global user.email "henning.haecker+github.com@gmail.com"
 
-# pip
+# pip fast timeout
 pip3() {
     if [[ $@ == "install"* ]]; then
         command pip3 --default-timeout=0.3 "$@"
@@ -50,6 +50,10 @@ upgrade_terraform() {
     sudo chmod +x /usr/local/bin/terraform
     rm ./terraform_*.zip
     terraform version
+}
+
+reboot_to_windows() {
+sudo grub-reboot 3 && sudo reboot
 }
 
 # vscode

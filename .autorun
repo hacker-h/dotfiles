@@ -1,0 +1,19 @@
+# abort on errors or undefined vars
+set -eu
+
+touch "${HOME}/.autorun-started"
+
+# make sure this script is invoked automatically on reboot by /etc/crontab
+SCRIPT_PATH=`realpath $0`
+CRONTAB_LINE="@reboot ${USER} bash ${SCRIPT_PATH}"
+
+#cat /etc/crontab | grep "${CRONTAB_LINE}" > /dev/null || echo "${CRONTAB_LINE}" | sudo tee -a /etc/crontab
+#echo "/etc/crontab is up to date."
+
+#ps -x  | grep -v grep | grep nextcloud
+while true
+do echo "retrying.. "`date` >> "${HOME}/.autorun.log"; sleep 5; nohup nextcloud --background &>> "${HOME}/.autorun-nextcloud.log" &
+done
+echo "nextcloud client was launched."
+
+
