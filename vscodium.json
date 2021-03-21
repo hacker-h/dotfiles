@@ -1,0 +1,7 @@
+{
+    "window.zoomLevel": 2,
+    "telemetry.enableTelemetry": false,
+    "editor.renderWhitespace": "all",
+    "workbench.startupEditor": "none",
+    "editor.maxTokenizationLineLength": 50000
+}
