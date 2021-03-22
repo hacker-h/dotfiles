@@ -76,4 +76,5 @@ shopt -s histappend                 # append to history, don't overwrite it
 shopt -s cmdhist
 # save multi-line commands to the history with embedded newlines
 shopt -s lithist
-
+# run history -a at each shell prompt => save new lines immediately to history
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
