@@ -3,5 +3,6 @@
     "telemetry.enableTelemetry": false,
     "editor.renderWhitespace": "all",
     "workbench.startupEditor": "none",
-    "editor.maxTokenizationLineLength": 50000
+    "editor.maxTokenizationLineLength": 50000,
+    "terminal.integrated.showExitAlert": false
 }

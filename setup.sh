@@ -27,7 +27,8 @@ curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
 
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y bmon \
+sudo apt-get install -y apt-file \
+			bmon \
                         codium \
                         cryptomator \
                         curl \
@@ -50,6 +51,8 @@ sudo apt-get install -y bmon \
                         vim \
                         virtualenv \
                         xdotool
+# pip upgrade
+sudo pip3 install pip --upgrade
 
 # google chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -71,7 +74,14 @@ sudo usermod -aG docker ${USER}
 newgrp docker
 
 # docker-compose
+export CRYPTOGRAPHY_DONT_BUILD_RUST=1
 sudo pip3 install docker-compose
+# if this fails => install cargo
+#sudo apt-get install build-essential libssl-dev libffi-dev python3-dev cargo
+#sudo pip3 install docker-compose
+# if this also fails => install rust:
+#curl https://sh.rustup.rs -sSf | sh -s -- -y
+#sudo pip3 install docker-compose
 
 # Ultimaker Cura
 LATEST_CURA_VERSION=$(curl https://github.com/Ultimaker/Cura/tags | grep /Ultimaker/Cura/releases/tag/[1-9]\. | cut -d'"' -f4 | cut -d'/' -f6 | grep -v beta | sort -u | tail -n1)
@@ -200,6 +210,8 @@ cat << EOF | tee ${HOME}/.config/Cryptomator/settings.json
   "showTrayIcon": false
 }
 EOF
+
+sudo apt-file update
 
 # manual steps
 
