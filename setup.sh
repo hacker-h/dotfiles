@@ -103,7 +103,7 @@ curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | s
 
 # keepassxc config
 mkdir -p ~/.config/keepassxc
-ln -s ~/src/github.com/hacker-h/dotfiles/keepassxc.ini ~/.config/keepassxc/keepassxc.ini
+ln -fs ~/src/github.com/hacker-h/dotfiles/keepassxc.ini ~/.config/keepassxc/keepassxc.ini
 mkdir -p ~/.cache/keepassxc
 cat << EOF | tee ~/.cache/keepassxc/keepassxc.ini
 [General]
@@ -122,10 +122,10 @@ EOF
 
 # terminator config
 mkdir -p ~/.config/terminator
-ln -s ~/src/github.com/hacker-h/dotfiles/terminator.config ~/.config/terminator/config
+ln -fs ~/src/github.com/hacker-h/dotfiles/terminator.config ~/.config/terminator/config
 # vscodium config
 mkdir -p ~/.config/VSCodium/User
-ln -s ~/src/github.com/hacker-h/dotfiles/vscodium.json ~/.config/VSCodium/User/settings.json
+ln -fs ~/src/github.com/hacker-h/dotfiles/vscodium.json ~/.config/VSCodium/User/settings.json
 # reload pulseaudio
 fix-audio
 
