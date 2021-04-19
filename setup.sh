@@ -129,7 +129,8 @@ ln -fs ~/src/github.com/hacker-h/dotfiles/vscodium.json ~/.config/VSCodium/User/
 
 # autorun for nextcloud with 3s delay (workaround until release of https://github.com/ubuntu/gnome-shell-extension-appindicator/pull/260)
 # cat ${HOME}/.config/autostart/custom_nextcloud.desktop 2>&1 | grep X-GNOME-Autostart-Delay || \
-cat > ${HOME}/.config/autostart/custom_nextcloud.desktop << EOF
+mkdir -p ${HOME}/.config/autostart
+cat << EOF | tee ${HOME}/.config/autostart/custom_nextcloud.desktop
 [Desktop Entry]
 Name=Nextcloud
 GenericName=File Synchronizer
