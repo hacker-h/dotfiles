@@ -126,8 +126,6 @@ ln -fs ~/src/github.com/hacker-h/dotfiles/terminator.config ~/.config/terminator
 # vscodium config
 mkdir -p ~/.config/VSCodium/User
 ln -fs ~/src/github.com/hacker-h/dotfiles/vscodium.json ~/.config/VSCodium/User/settings.json
-# reload pulseaudio
-fix-audio
 
 # autorun for nextcloud with 3s delay (workaround until release of https://github.com/ubuntu/gnome-shell-extension-appindicator/pull/260)
 # cat ${HOME}/.config/autostart/custom_nextcloud.desktop 2>&1 | grep X-GNOME-Autostart-Delay || \
