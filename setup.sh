@@ -96,7 +96,7 @@ chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
 SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || cd ./OctoPrintPlugin && git pull origin master
+git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2)
 
 # fetch dotfiles
 curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
