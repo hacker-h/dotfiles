@@ -1,3 +1,5 @@
+set -eu
+
 export DEBIAN_FRONTEND=noninteractive
 
 # disable root password prompt
@@ -16,7 +18,7 @@ mkdir -p ~/software ~/nextcloudLocal ~/nextcloudCryptomator ~/cryptomator ~/.key
 
 # add apt repositories
 # keepassxc
-sudo add-apt-repository ppa:phoerious/keepassxc
+sudo add-apt-repository -y ppa:phoerious/keepassxc
 # cryptomator
 sudo add-apt-repository -y ppa:sebastian-stenzel/cryptomator
 # vscodium
@@ -184,7 +186,6 @@ HandleLidSwitch=ignore
 HandleLidSwitchExternalPower=ignore
 HandleLidSwitchDocked=ignore
 EOF
-systemctl restart systemd-logind
 
 # cryptomator
 mkdir -p ${HOME}/.config/Cryptomator
@@ -226,6 +227,7 @@ sudo apt-file update
 # (re-) install suitable gpu driver
 sudo ubuntu-drivers autoinstall
 
+systemctl restart systemd-logind
 # manual steps
 
 # firefox -> firefox account -> login
