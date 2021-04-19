@@ -100,7 +100,6 @@ git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin 
 
 # fetch dotfiles
 curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
-source ~/.bash_aliases
 
 # keepassxc config
 mkdir -p ~/.config/keepassxc
