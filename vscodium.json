@@ -4,5 +4,6 @@
     "editor.renderWhitespace": "all",
     "workbench.startupEditor": "none",
     "editor.maxTokenizationLineLength": 50000,
-    "terminal.integrated.showExitAlert": false
+    "terminal.integrated.showExitAlert": false,
+    "terminal.integrated.shell.linux": "bash"
 }

@@ -53,7 +53,7 @@ upgrade_terraform() {
 }
 
 reboot_to_windows() {
-sudo grub-reboot 3 && sudo reboot
+sudo grub-reboot 2 && sudo reboot
 }
 
 # vscode

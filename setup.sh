@@ -32,6 +32,7 @@ sudo apt-get install -y apt-file \
                         codium \
                         cryptomator \
                         curl \
+			filezilla \
                         git \
                         htop \
                         iotop \
@@ -212,6 +213,9 @@ cat << EOF | tee ${HOME}/.config/Cryptomator/settings.json
 EOF
 
 sudo apt-file update
+
+# (re-) install suitable gpu driver
+sudo ubuntu-drivers autoinstall
 
 # manual steps
 
