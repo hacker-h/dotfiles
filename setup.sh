@@ -58,8 +58,9 @@ sudo apt-get install -y apt-file \
 sudo pip3 install pip --upgrade
 
 # google chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
+cd /tmp
+ls google-chrome-stable_current_amd64.deb || wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
 
 # pcloud
 #https://www.pcloud.com/how-to-install-pcloud-drive-linux.html?download=electron-64
@@ -74,7 +75,6 @@ sudo snap install chromium
 # docker
 curl -fsSL https://get.docker.com | sh -
 sudo usermod -aG docker ${USER}
-newgrp docker
 
 # docker-compose
 export CRYPTOGRAPHY_DONT_BUILD_RUST=1
