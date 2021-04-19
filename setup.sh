@@ -89,14 +89,14 @@ sudo pip3 install docker-compose
 # Ultimaker Cura
 LATEST_CURA_VERSION=$(curl https://github.com/Ultimaker/Cura/tags | grep /Ultimaker/Cura/releases/tag/[1-9]\. | cut -d'"' -f4 | cut -d'/' -f6 | grep -v beta | sort -u | tail -n1)
 cd ~/software
-wget https://storage.googleapis.com/software.ultimaker.com/cura/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
+ls Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage || wget https://storage.googleapis.com/software.ultimaker.com/cura/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
 chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
 
 # Cura Octoprint plugin
 SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin
+git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || cd ./OctoPrintPlugin && git pull origin master
 
 # fetch dotfiles
 curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
