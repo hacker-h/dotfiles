@@ -99,9 +99,9 @@ cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin
 
 # fetch dotfiles
-yes | git clone https://github.com/hacker-h/dotfiles.git ~/src/github.com/hacker-h/dotfiles
-bash ~/src/github.com/hacker-h/dotfiles/install.bash
-source ~/.bashrc
+curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
+source ~/.bash_aliases
+
 # keepassxc config
 mkdir -p ~/.config/keepassxc
 ln -s ~/src/github.com/hacker-h/dotfiles/keepassxc.ini ~/.config/keepassxc/keepassxc.ini
