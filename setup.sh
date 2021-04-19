@@ -21,10 +21,10 @@ sudo add-apt-repository ppa:phoerious/keepassxc
 sudo add-apt-repository -y ppa:sebastian-stenzel/cryptomator
 # vscodium
 wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/vscodium.gpg
-echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list.d/vscodium.list
+echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
 # signal
 curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
-echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee /etc/apt/sources.list.d/signal-xenial.list
 
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y apt-file \
@@ -168,7 +168,16 @@ sudo chown gdm:gdm ~gdm/.config/monitors.xml
 
 # disables suspend/hibernate, thanks @ https://serverfault.com/a/1045950
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-cat <<"EOF" | sudo tee -a /etc/systemd/logind.conf
+cat <<"EOF" | sudo tee /etc/systemd/logind.conf
+# This file is part of systemd.
+# See logind.conf(5) for details.
+
+[Login]
+HandleSuspendKey=ignore
+HandleHibernateKey=ignore
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
 HandleSuspendKey=ignore
 HandleHibernateKey=ignore
 HandleLidSwitch=ignore
