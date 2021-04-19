@@ -225,7 +225,6 @@ sudo apt-file update
 # (re-) install suitable gpu driver
 sudo ubuntu-drivers autoinstall
 
-systemctl restart systemd-logind
 # manual steps
 
 # firefox -> firefox account -> login
