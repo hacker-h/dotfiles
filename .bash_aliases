@@ -78,3 +78,7 @@ shopt -s cmdhist
 shopt -s lithist
 # run history -a at each shell prompt => save new lines immediately to history
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+
+# android platform tools
+export PATH="$PWD/platform-tools:$PATH"
+
