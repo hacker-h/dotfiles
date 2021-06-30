@@ -65,7 +65,7 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 # pcloud
 #https://www.pcloud.com/how-to-install-pcloud-drive-linux.html?download=electron-64
 LATEST_PCLOUD_DOWNLOAD=$(curl https://api.pcloud.com/getlastversion?os=ELECTRON | jq -r '."linux-x64-prod".update')
-wget ${LATEST_PCLOUD_DOWNLOAD}
+ls ~/software/pcloud || wget ${LATEST_PCLOUD_DOWNLOAD}
 sudo chmod +x ./pcloud
 sudo mv ./pcloud ~/software/
 
@@ -89,7 +89,9 @@ sudo pip3 install docker-compose
 # Ultimaker Cura
 LATEST_CURA_VERSION=$(curl https://github.com/Ultimaker/Cura/tags | grep /Ultimaker/Cura/releases/tag/[1-9]\. | cut -d'"' -f4 | cut -d'/' -f6 | grep -v beta | sort -u | tail -n1)
 cd ~/software
-ls Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage || wget https://storage.googleapis.com/software.ultimaker.com/cura/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
+ls Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage ||\
+=$(curl https://ultimaker.com/software/ultimaker-cura | grep -oE '"Linux, 64 bit","(.*\.AppImage)' | grep -oE 'https:.*\.AppImage')
+wget ${LATEST_CURA_LINK} -O ./Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
 chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
 
 # Cura Octoprint plugin
@@ -141,7 +143,7 @@ Categories=Network
 Type=Application
 StartupNotify=false
 X-GNOME-Autostart-enabled=true
-X-GNOME-Autostart-Delay=5
+X-GNOME-Autostart-Delay=10
 EOF
 
 # nextcloud sync configs
