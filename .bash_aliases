@@ -81,4 +81,4 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # android platform tools
 export PATH="$PWD/platform-tools:$PATH"
-
+export PATH="$PWD/.go/bin:$PATH"

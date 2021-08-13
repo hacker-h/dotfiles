@@ -37,6 +37,7 @@ sudo apt-get install -y apt-file \
 			filezilla \
                         git \
                         htop \
+                        inotify-tools \
                         iotop \
                         jq \
                         keepassxc \
@@ -99,6 +100,9 @@ SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2)
+
+# Golang dev environment
+curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
 
 # fetch dotfiles
 curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
@@ -264,3 +268,4 @@ sudo ubuntu-drivers autoinstall
 # restart nextcloud desktop sync client
 
 # add pcloud sync: nextcloudLocal => pCloudRemote
+
