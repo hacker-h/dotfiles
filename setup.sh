@@ -21,6 +21,8 @@ mkdir -p ~/software ~/nextcloudLocal ~/nextcloudCryptomator ~/cryptomator ~/.key
 sudo add-apt-repository -y ppa:phoerious/keepassxc
 # cryptomator
 sudo add-apt-repository -y ppa:sebastian-stenzel/cryptomator
+# python 3.9
+sudo add-apt-repository ppa:deadsnakes/ppa
 # vscodium
 wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/vscodium.gpg
 echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
@@ -30,11 +32,11 @@ echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sud
 
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y apt-file \
-			bmon \
+			                  bmon \
                         codium \
                         cryptomator \
                         curl \
-			filezilla \
+			                  filezilla \
                         git \
                         htop \
                         inotify-tools \
@@ -45,7 +47,8 @@ sudo apt-get install -y apt-file \
                         nextcloud-desktop \
                         nmap \
                         ntfs-3g \
-                        python3-pip \
+                        python3.9 \
+                        python3.9-distutils \
                         signal-desktop \
                         snap \
                         strace \
@@ -55,8 +58,10 @@ sudo apt-get install -y apt-file \
                         vim \
                         virtualenv \
                         xdotool
+# pip for python 3.9
+curl https://bootstrap.pypa.io/get-pip.py | python3.9 -
 # pip upgrade
-sudo pip3 install pip --upgrade
+sudo pip3.9 install pip --upgrade
 
 # google chrome
 cd /tmp
