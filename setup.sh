@@ -236,6 +236,9 @@ sudo apt-file update
 # (re-) install suitable gpu driver
 sudo ubuntu-drivers autoinstall
 
+# grant USB device permissions
+sudo usermod -a -G dialout ${USER}
+
 # manual steps
 
 # firefox -> firefox account -> login
