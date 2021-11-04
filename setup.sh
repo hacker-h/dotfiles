@@ -92,14 +92,6 @@ sudo pip3 install docker-compose
 #curl https://sh.rustup.rs -sSf | sh -s -- -y
 #sudo pip3 install docker-compose
 
-# Ultimaker Cura
-LATEST_CURA_VERSION=$(curl https://github.com/Ultimaker/Cura/tags | grep /Ultimaker/Cura/releases/tag/[1-9]\. | cut -d'"' -f4 | cut -d'/' -f6 | grep -v beta | sort -u | tail -n1)
-cd ~/software
-ls Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage ||\
-=$(curl https://ultimaker.com/software/ultimaker-cura | grep -oE '"Linux, 64 bit","(.*\.AppImage)' | grep -oE 'https:.*\.AppImage')
-wget ${LATEST_CURA_LINK} -O ./Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
-chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
-
 # Cura Octoprint plugin
 SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
@@ -256,6 +248,7 @@ sudo usermod -a -G dialout ${USER}
 # Firefox Preferences -> Privacy & Security -> Uncheck:
 # -> Allow Firefox to send technical and interaction data to Mozilla
 # -> Allow Firefox to install and run studies
+# about:config => Accept => 'webgpu' enable
 # Youtube -> TLS Lock -> Autoplay -> Allow Audio and Video
 # Netflix -> TLS Lock -> Autoplay -> Allow Audio and Video
 # Github -> Login with keepassxc integration
