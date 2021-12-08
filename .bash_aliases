@@ -43,6 +43,11 @@ upgrade_dotfiles() {
     bash ~/src/github.com/hacker-h/dotfiles/install.bash
 }
 
+github_get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
 upgrade_terraform() {
     curl -O $(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')_linux_amd64.zip")
     unzip ./terraform_*.zip
@@ -52,15 +57,17 @@ upgrade_terraform() {
     terraform version
 }
 
+
 upgrade_cura() {
     # Ultimaker Cura
-    LATEST_CURA_VERSION=$(curl https://github.com/Ultimaker/Cura/tags | grep /Ultimaker/Cura/releases/tag/[1-9]\. | cut -d'"' -f4 | cut -d'/' -f6 | grep -v beta | sort -nu | tail -n1)
+    LATEST_CURA_RELEASE=$(github_get_latest_release Ultimaker/Cura)
+    LATEST_CURA_VERSION=${LATEST_CURA_RELEASE}
     cd ~/software
     if find Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage; then
         echo "Ultimaker Cura is already up to date."
     else
         OLD_ULTIMAKER_BINARY=$(ls ${HOME}/software/Ultimaker*.AppImage)
-        LATEST_CURA_LINK=$(curl https://ultimaker.com/software/ultimaker-cura | grep -oE '"Linux, 64 bit","(.*\.AppImage)' | grep -oE 'https:.*\.AppImage' | sed 's~\\u002F~/~g')
+        LATEST_CURA_LINK="https://github.com/Ultimaker/Cura/releases/download/${LATEST_CURA_RELEASE}/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage"
         wget "${LATEST_CURA_LINK}" -O ./Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         if [ ! -z "${OLD_ULTIMAKER_BINARY}" ]; then
@@ -69,9 +76,27 @@ upgrade_cura() {
     fi
 }
 
+upgrade_nextcloud_desktop() {
+    # Nextcloud Desktop
+    LATEST_NEXTCLOUD_RELEASE=$(github_get_latest_release nextcloud/desktop)
+    LATEST_NEXTCLOUD_VERSION=$(echo ${LATEST_NEXTCLOUD_RELEASE} | cut -d'v' -f2-)
+    cd ~/software
+    if find Nextcloud-${LATEST_NEXTCLOUD_VERSION}-x86_64.AppImage; then
+        echo "Nextcloud Desktop is already up to date."
+    else
+        OLD_NEXTCLOUD_BINARY=$(ls ${HOME}/software/Nextcloud*.AppImage)
+        LATEST_NEXTCLOUD_LINK="https://github.com/nextcloud/desktop/releases/download/v${LATEST_NEXTCLOUD_VERSION}/Nextcloud-${LATEST_NEXTCLOUD_VERSION}-x86_64.AppImage"
+        wget "${LATEST_NEXTCLOUD_LINK}" -O ./Nextcloud-${LATEST_NEXTCLOUD_VERSION}-x86_64.AppImage
+        chmod +x ~/software/Nextcloud-${LATEST_NEXTCLOUD_VERSION}-x86_64.AppImage
+        if [ ! -z "${OLD_NEXTCLOUD_BINARY}" ]; then
+            rm "${OLD_NEXTCLOUD_BINARY}"
+        fi
+    fi
+}
+
 
 reboot_to_windows() {
-sudo grub-reboot 2 && sudo reboot
+    sudo grub-reboot 2 && sudo reboot
 }
 
 # vscode
@@ -95,7 +120,7 @@ shopt -s cmdhist
 # save multi-line commands to the history with embedded newlines
 shopt -s lithist
 # run history -a at each shell prompt => save new lines immediately to history
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+PROMPT_COMMAND="history -a;${PROMPT_COMMAND:-}"
 
 # android platform tools
 export PATH="$PWD/platform-tools:$PATH"

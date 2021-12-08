@@ -22,7 +22,7 @@ sudo add-apt-repository -y ppa:phoerious/keepassxc
 # cryptomator
 sudo add-apt-repository -y ppa:sebastian-stenzel/cryptomator
 # python 3.9
-sudo add-apt-repository ppa:deadsnakes/ppa
+sudo add-apt-repository -y ppa:deadsnakes/ppa
 # vscodium
 wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/vscodium.gpg
 echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
@@ -44,13 +44,12 @@ sudo apt-get install -y apt-file \
                         jq \
                         keepassxc \
                         net-tools \
-                        nextcloud-desktop \
                         nmap \
                         ntfs-3g \
                         python3.9 \
                         python3.9-distutils \
                         signal-desktop \
-                        snap \
+                        snapd \
                         strace \
                         terminator \
                         torbrowser-launcher \
@@ -59,7 +58,7 @@ sudo apt-get install -y apt-file \
                         virtualenv \
                         xdotool
 # pip for python 3.9
-curl https://bootstrap.pypa.io/get-pip.py | python3.9 -
+curl https://bootstrap.pypa.io/get-pip.py | sudo python3.9 -
 # pip upgrade
 sudo pip3.9 install pip --upgrade
 
@@ -71,9 +70,8 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 # pcloud
 #https://www.pcloud.com/how-to-install-pcloud-drive-linux.html?download=electron-64
 LATEST_PCLOUD_DOWNLOAD=$(curl https://api.pcloud.com/getlastversion?os=ELECTRON | jq -r '."linux-x64-prod".update')
-ls ~/software/pcloud || wget ${LATEST_PCLOUD_DOWNLOAD}
-sudo chmod +x ./pcloud
-sudo mv ./pcloud ~/software/
+ls ~/software/pcloud || wget ${LATEST_PCLOUD_DOWNLOAD} -O ~/software/pcloud
+sudo chmod +x ~/software/pcloud
 
 # chromium
 sudo snap install chromium
@@ -92,17 +90,23 @@ sudo pip3 install docker-compose
 #curl https://sh.rustup.rs -sSf | sh -s -- -y
 #sudo pip3 install docker-compose
 
+# fetch dotfiles
+curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
+
+source ~/.bash_aliases
+
+LATEST_CURA_VERSION=$(github_get_latest_release Ultimaker/Cura)
 # Cura Octoprint plugin
 SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2)
+git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
+
+upgrade_nextcloud_desktop
+upgrade_cura
 
 # Golang dev environment
 curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
-
-# fetch dotfiles
-curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
 
 # keepassxc config
 mkdir -p ~/.config/keepassxc
@@ -163,6 +167,21 @@ optionalServerNotifications=true
 0\Folders\2\paused=false
 0\Folders\2\targetPath=/nextcloudRemote
 EOF
+
+# nextcloud Desktop icon
+cat << EOF | tee ${HOME}/Desktop/Nextcloud.desktop
+[Desktop Entry]
+Categories=Utility;X-SuSE-SyncUtility;
+Type=Application
+Exec=nextcloud
+Name=Nextcloud desktop sync client 
+Comment=Nextcloud desktop synchronization client
+GenericName=Folder Sync
+Icon=Nextcloud
+Keywords=Nextcloud;syncing;file;sharing;
+X-GNOME-Autostart-Delay=3
+EOF
+
 
 # fix monitor order on login screen
 sudo cp ~/.config/monitors.xml ~gdm/.config/monitors.xml
