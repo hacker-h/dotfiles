@@ -92,6 +92,8 @@ upgrade_nextcloud_desktop() {
             rm "${OLD_NEXTCLOUD_BINARY}"
         fi
     fi
+    ln -sf ~/software/Nextcloud-${LATEST_NEXTCLOUD_VERSION}-x86_64.AppImage ~/software/nextcloud-latest
+
 }
 
 

@@ -102,8 +102,8 @@ mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
 
-upgrade_nextcloud_desktop
 upgrade_cura
+upgrade_nextcloud_desktop
 
 # Golang dev environment
 curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
@@ -141,14 +141,14 @@ cat << EOF | tee ${HOME}/.config/autostart/custom_nextcloud.desktop
 [Desktop Entry]
 Name=Nextcloud
 GenericName=File Synchronizer
-Exec=/usr/bin/nextcloud
+Exec=/home/hacker/software/nextcloud-latest
 Terminal=false
 Icon=nextcloud
 Categories=Network
 Type=Application
 StartupNotify=false
 X-GNOME-Autostart-enabled=true
-X-GNOME-Autostart-Delay=10
+X-GNOME-Autostart-Delay=15
 EOF
 
 # nextcloud sync configs
@@ -169,11 +169,11 @@ optionalServerNotifications=true
 EOF
 
 # nextcloud Desktop icon
-cat << EOF | tee ${HOME}/Desktop/Nextcloud.desktop
+cat << EOF | tee ${HOME}/.local/share/applications/nextcloud-latest.desktop
 [Desktop Entry]
 Categories=Utility;X-SuSE-SyncUtility;
 Type=Application
-Exec=nextcloud
+Exec=/home/hacker/software/nextcloud-latest
 Name=Nextcloud desktop sync client 
 Comment=Nextcloud desktop synchronization client
 GenericName=Folder Sync
@@ -181,7 +181,6 @@ Icon=Nextcloud
 Keywords=Nextcloud;syncing;file;sharing;
 X-GNOME-Autostart-Delay=3
 EOF
-
 
 # fix monitor order on login screen
 sudo cp ~/.config/monitors.xml ~gdm/.config/monitors.xml
@@ -269,6 +268,9 @@ sudo usermod -a -G dialout ${USER}
 # -> Allow Firefox to install and run studies
 # about:config => Accept => 'webgpu' enable
 # Youtube -> TLS Lock -> Autoplay -> Allow Audio and Video
+# KeepassXC => Entries => Settings => Browser Integration => check 'Firefox' => OK
+# KeepasXC Addon -> Connected Databases => Connect
+# KeepassXC Addon Settings -> check 'Automatically reconnect to KeePassXC'
 # Netflix -> TLS Lock -> Autoplay -> Allow Audio and Video
 # Github -> Login with keepassxc integration
 # 2FA Code eingeben
