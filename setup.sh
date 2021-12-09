@@ -1,5 +1,5 @@
 set -eu
-
+shopt -s expand_aliases
 export DEBIAN_FRONTEND=noninteractive
 
 # disable root password prompt
@@ -30,7 +30,8 @@ echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium mai
 curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee /etc/apt/sources.list.d/signal-xenial.list
 
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
+sudo apt-get upgrade -y
 sudo apt-get install -y apt-file \
 			                  bmon \
                         codium \
@@ -57,8 +58,17 @@ sudo apt-get install -y apt-file \
                         vim \
                         virtualenv \
                         xdotool
+
+# fetch dotfiles
+curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
+
+source ~/.bash_aliases
+
 # pip for python 3.9
 curl https://bootstrap.pypa.io/get-pip.py | sudo python3.9 -
+
+source ~/.bash_aliases
+
 # pip upgrade
 sudo pip3.9 install pip --upgrade
 
@@ -89,11 +99,6 @@ sudo pip3 install docker-compose
 # if this also fails => install rust:
 #curl https://sh.rustup.rs -sSf | sh -s -- -y
 #sudo pip3 install docker-compose
-
-# fetch dotfiles
-curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | sh -
-
-source ~/.bash_aliases
 
 LATEST_CURA_VERSION=$(github_get_latest_release Ultimaker/Cura)
 # Cura Octoprint plugin
@@ -284,10 +289,10 @@ sudo usermod -a -G dialout ${USER}
 # uBlock -> Open the dashboard -> Settings -> Enable cloud storage support
 # uBlock -> for each tab: cloudPullAndMerge -> Commit
 
-# generate + save ssh keys in ~/.keys
-
 # Run nextcloud desktop sync client => login
 # restart nextcloud desktop sync client
+# Nextcloud App => Settings => General => check 'Launch on System Startup'
 
 # add pcloud sync: nextcloudLocal => pCloudRemote
 
+# generate + save ssh keys in ~/.keys
