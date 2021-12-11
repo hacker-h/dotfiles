@@ -13,6 +13,9 @@ sudo apt-get install --reinstall ca-certificates tzdata
 sudo ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 sudo dpkg-reconfigure --frontend noninteractive tzdata
 
+# fix time format compatibility with dual boot windows
+timedatectl set-local-rtc 1
+
 # create some directories
 mkdir -p ~/software ~/nextcloudLocal ~/nextcloudCryptomator ~/cryptomator ~/.keys
 
