@@ -7,7 +7,9 @@ echo "${USER} ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
 
 sudo apt-get remove update-notifier -y
 
-sudo apt-get install --reinstall ca-certificates tzdata
+sudo apt-get install -y apt-transport-https
+
+sudo apt-get install -y --reinstall ca-certificates tzdata
 
 # configure time zone
 sudo ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
@@ -32,15 +34,19 @@ echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium mai
 # signal
 curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee /etc/apt/sources.list.d/signal-xenial.list
+# element
+sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
 
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y apt-file \
-			                  bmon \
+                        bmon \
                         codium \
                         cryptomator \
                         curl \
-			                  filezilla \
+                        element-desktop \
+                        filezilla \
                         git \
                         htop \
                         inotify-tools \
@@ -109,6 +115,9 @@ SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
 mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
 git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
+# Cura Calibration Shapes plugin
+cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
+git clone https://github.com/5axes/Calibration-Shapes ./Calibration-Shapes || (cd ./Calibration-Shapes && git pull origin $(git branch | cut -d' ' -f2))
 
 upgrade_cura
 upgrade_nextcloud_desktop
@@ -281,7 +290,7 @@ sudo usermod -a -G dialout ${USER}
 # KeepassXC Addon Settings -> check 'Automatically reconnect to KeePassXC'
 # Netflix -> TLS Lock -> Autoplay -> Allow Audio and Video
 # Github -> Login with keepassxc integration
-# 2FA Code eingeben
+# type 2FA Code
 
 # launch Tor Browser => Download starts => installing
 # -> Connect
