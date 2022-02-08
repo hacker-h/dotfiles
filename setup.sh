@@ -92,8 +92,11 @@ LATEST_PCLOUD_DOWNLOAD=$(curl https://api.pcloud.com/getlastversion?os=ELECTRON 
 ls ~/software/pcloud || wget ${LATEST_PCLOUD_DOWNLOAD} -O ~/software/pcloud
 sudo chmod +x ~/software/pcloud
 
-# chromium
-sudo snap install chromium
+# ungoogled chromium
+echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' | sudo tee /etc/apt/sources.list.d/home-ungoogled_chromium.list > /dev/null
+curl -s 'https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key' | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home-ungoogled_chromium.gpg > /dev/null
+sudo apt update
+sudo apt install -y ungoogled-chromium
 
 # docker
 curl -fsSL https://get.docker.com | sh -

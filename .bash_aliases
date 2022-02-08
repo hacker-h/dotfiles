@@ -5,6 +5,7 @@ alias dprune="docker system prune -f && docker volume prune -f"
 
 # git
 git config --global core.autocrlf false
+git config --global core.editor "vim"
 git config --global user.name "Henning Häcker"
 git config --global user.email "henning.haecker+github.com@gmail.com"
 
