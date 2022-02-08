@@ -56,6 +56,7 @@ sudo apt-get install -y apt-file \
                         net-tools \
                         nmap \
                         ntfs-3g \
+                        pdfarranger \
                         python3.9 \
                         python3.9-distutils \
                         signal-desktop \
