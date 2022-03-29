@@ -37,10 +37,14 @@ echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sud
 # element
 sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
+# avidemux
+sudo add-apt-repository -y ppa:xtradeb/apps
 
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y apt-file \
+                        avidemux-qt \
+                        avidemux-jobs-qt \
                         bmon \
                         codium \
                         cryptomator \
@@ -67,6 +71,7 @@ sudo apt-get install -y apt-file \
                         vlc \
                         vim \
                         virtualenv \
+			whois \
                         xdotool
 
 # fetch dotfiles
