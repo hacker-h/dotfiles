@@ -71,7 +71,7 @@ sudo apt-get install -y apt-file \
                         vlc \
                         vim \
                         virtualenv \
-			whois \
+                        whois \
                         xdotool
 
 # fetch dotfiles

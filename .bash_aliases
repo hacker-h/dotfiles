@@ -7,7 +7,7 @@ alias dprune="docker system prune -f && docker volume prune -f"
 git config --global core.autocrlf false
 git config --global core.editor "vim"
 git config --global user.name "Henning Häcker"
-git config --global user.email "henning.haecker+github.com@gmail.com"
+git config --global user.email "henning.haecker+github.com@protonmail.com"
 
 # pip fast timeout
 pip3() {
@@ -68,7 +68,9 @@ upgrade_cura() {
         echo "Ultimaker Cura is already up to date."
     else
         OLD_ULTIMAKER_BINARY=$(ls ${HOME}/software/Ultimaker*.AppImage)
-        LATEST_CURA_LINK="https://github.com/Ultimaker/Cura/releases/download/${LATEST_CURA_RELEASE}/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage"
+        RELEASE_INFO=$(curl -s https://github.com/Ultimaker/Cura/releases/tag/${LATEST_CURA_RELEASE})
+        LATEST_CURA_NAME=$(echo "${RELEASE_INFO}" | grep -Eo Ultimaker.*.AppImage\< | grep -Eo Ultimaker.*.AppImage)
+        LATEST_CURA_LINK="https://github.com/Ultimaker/Cura/releases/download/${LATEST_CURA_RELEASE}/${LATEST_CURA_NAME}"
         wget "${LATEST_CURA_LINK}" -O ./Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         if [ ! -z "${OLD_ULTIMAKER_BINARY}" ]; then
