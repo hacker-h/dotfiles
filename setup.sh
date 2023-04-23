@@ -46,6 +46,7 @@ sudo apt-get install -y apt-file \
                         avidemux-qt \
                         avidemux-jobs-qt \
                         bmon \
+                        build-essential \
                         codium \
                         cryptomator \
                         curl \
@@ -61,7 +62,11 @@ sudo apt-get install -y apt-file \
                         nmap \
                         ntfs-3g \
                         pdfarranger \
+                        python3.8 \
+                        python3.8-dev \
+                        python3.8-distutils \
                         python3.9 \
+                        python3.9-dev \
                         python3.9-distutils \
                         signal-desktop \
                         snapd \

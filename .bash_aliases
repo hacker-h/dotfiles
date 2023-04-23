@@ -128,5 +128,5 @@ shopt -s lithist
 PROMPT_COMMAND="history -a;${PROMPT_COMMAND:-}"
 
 # android platform tools
-export PATH="$PWD/platform-tools:$PATH"
-export PATH="$PWD/.go/bin:$PATH"
+export PATH="${HOME}/software/platform-tools:$PATH"
+export PATH="${HOME}/.go/bin:$PATH"
