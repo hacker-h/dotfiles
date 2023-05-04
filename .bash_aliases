@@ -130,3 +130,18 @@ PROMPT_COMMAND="history -a;${PROMPT_COMMAND:-}"
 # android platform tools
 export PATH="${HOME}/software/platform-tools:$PATH"
 export PATH="${HOME}/.go/bin:$PATH"
+
+# show git branch in bash prompt + * if there is diff to HEAD
+parse_git_branch() {
+    local branch=$(git symbolic-ref --short HEAD 2> /dev/null)
+    if [ -n "$branch" ]; then
+        echo " ($branch$(git status --porcelain | grep -q . && echo " *"))"
+    fi
+}
+
+GREEN="\[\033[0;32m\]"
+BLUE="\[\033[0;34m\]"
+RESET="\[\033[0m\]"
+
+PS1="\[$GREEN\]\u@\h:\[$BLUE\]\w\$(parse_git_branch)\[$RESET\]\$ "
+
