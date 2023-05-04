@@ -16,5 +16,6 @@
     },
     "security.workspace.trust.emptyWindow": false,
     "security.workspace.trust.startupPrompt": "never",
-    "security.workspace.trust.enabled": false
+    "security.workspace.trust.enabled": false,
+    "git.openRepositoryInParentFolders": "never"
 }
