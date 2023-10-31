@@ -113,6 +113,7 @@ alias fix-audio="pulseaudio -k && sudo alsa force-reload"
 alias l="ls"
 alias ll="ls -lah"
 alias refresh="source ~/.bashrc"
+source ~/src/github.com/hacker-h/desktop-scripts/mqtt/tv.sh
 
 HISTTIMEFORMAT='%F %T '
 HISTFILESIZE=-1
@@ -144,4 +145,9 @@ BLUE="\[\033[0;34m\]"
 RESET="\[\033[0m\]"
 
 PS1="\[$GREEN\]\u@\h:\[$BLUE\]\w\$(parse_git_branch)\[$RESET\]\$ "
+# if ping # TODO check for internet connectivity before curl
+
+alias inventar="libreoffice ${HOME}/nextcloudLocal/Inventar.ods"
+alias inv=inventar
+alias upgrade_discord='wget -O /tmp/discord-latest.deb "https://discord.com/api/download/stable?platform=linux&format=deb" && apt install /tmp/discord-latest.deb'
 

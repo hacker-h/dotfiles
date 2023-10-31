@@ -42,6 +42,7 @@ sudo add-apt-repository -y ppa:xtradeb/apps
 
 sudo apt-get update
 sudo apt-get upgrade -y
+sudo apt-get remove ubuntu-advantage-tools -y
 sudo apt-get install -y apt-file \
                         avidemux-qt \
                         avidemux-jobs-qt \

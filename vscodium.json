@@ -10,12 +10,16 @@
         "editor.defaultFormatter": "mblode.pretty-formatter"
     },
     "redhat.telemetry.enabled": false,
-    "window.zoomLevel": 2,
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
     "security.workspace.trust.emptyWindow": false,
     "security.workspace.trust.startupPrompt": "never",
     "security.workspace.trust.enabled": false,
-    "git.openRepositoryInParentFolders": "never"
+    "git.openRepositoryInParentFolders": "never",
+    "python.defaultInterpreterPath": "/home/hacker/.venv/selenium-test",
+    "window.zoomLevel": 2,
+    "[html]": {
+        "editor.defaultFormatter": "mblode.pretty-formatter"
+    }
 }
