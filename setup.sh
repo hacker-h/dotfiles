@@ -54,6 +54,7 @@ sudo apt-get install -y apt-file \
                         element-desktop \
                         filezilla \
                         git \
+			git-crypt \
                         htop \
                         inotify-tools \
                         iotop \
@@ -66,17 +67,22 @@ sudo apt-get install -y apt-file \
                         python3.8 \
                         python3.8-dev \
                         python3.8-distutils \
+                        python3 \
+                        python3-pip \
                         python3.9 \
                         python3.9-dev \
                         python3.9-distutils \
                         signal-desktop \
                         snapd \
+                        sshfs \
                         strace \
                         terminator \
                         torbrowser-launcher \
-                        vlc \
+			vagrant \
                         vim \
                         virtualenv \
+			virtualbox \
+                        vlc \
                         whois \
                         xdotool
 
@@ -88,10 +94,15 @@ source ~/.bash_aliases
 # pip for python 3.9
 curl https://bootstrap.pypa.io/get-pip.py | sudo python3.9 -
 
-source ~/.bash_aliases
-
 # pip upgrade
 sudo pip3.9 install pip --upgrade
+sudo pip3 install pip --upgrade
+
+# install pip dependencies for torbrowser launcher
+sudo pip3 install requests
+
+# install platformio CLI
+sudo pip install -U platformio
 
 # google chrome
 cd /tmp
@@ -103,12 +114,6 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 LATEST_PCLOUD_DOWNLOAD=$(curl https://api.pcloud.com/getlastversion?os=ELECTRON | jq -r '."linux-x64-prod".update')
 ls ~/software/pcloud || wget ${LATEST_PCLOUD_DOWNLOAD} -O ~/software/pcloud
 sudo chmod +x ~/software/pcloud
-
-# ungoogled chromium
-echo 'deb http://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/ /' | sudo tee /etc/apt/sources.list.d/home-ungoogled_chromium.list > /dev/null
-curl -s 'https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key' | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home-ungoogled_chromium.gpg > /dev/null
-sudo apt update
-sudo apt install -y ungoogled-chromium
 
 # docker
 curl -fsSL https://get.docker.com | sh -
@@ -124,17 +129,17 @@ sudo pip3 install docker-compose
 #curl https://sh.rustup.rs -sSf | sh -s -- -y
 #sudo pip3 install docker-compose
 
-LATEST_CURA_VERSION=$(github_get_latest_release Ultimaker/Cura)
-# Cura Octoprint plugin
-SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
-mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
-# Cura Calibration Shapes plugin
-cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-git clone https://github.com/5axes/Calibration-Shapes ./Calibration-Shapes || (cd ./Calibration-Shapes && git pull origin $(git branch | cut -d' ' -f2))
-
-upgrade_cura
+#LATEST_CURA_VERSION=$(github_get_latest_release Ultimaker/Cura)
+## Cura Octoprint plugin
+#SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
+#mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
+#cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
+#git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
+## Cura Calibration Shapes plugin
+#cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
+#git clone https://github.com/5axes/Calibration-Shapes ./Calibration-Shapes || (cd ./Calibration-Shapes && git pull origin $(git branch | cut -d' ' -f2))
+#
+#upgrade_cura
 upgrade_nextcloud_desktop
 
 # Golang dev environment
@@ -280,6 +285,7 @@ sudo ubuntu-drivers autoinstall
 
 # grant USB device permissions
 sudo usermod -a -G dialout ${USER}
+newgrp dialout
 
 # manual steps
 
@@ -300,7 +306,7 @@ sudo usermod -a -G dialout ${USER}
 # -> Allow Firefox to install and run studies
 # about:config => Accept => 'webgpu' enable
 # Youtube -> TLS Lock -> Autoplay -> Allow Audio and Video
-# KeepassXC => Entries => Settings => Browser Integration => check 'Firefox' => OK
+# KeepassXC => Tools => Settings => Browser Integration => check 'Firefox' => OK
 # KeepasXC Addon -> Connected Databases => Connect
 # KeepassXC Addon Settings -> check 'Automatically reconnect to KeePassXC'
 # Netflix -> TLS Lock -> Autoplay -> Allow Audio and Video

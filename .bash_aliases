@@ -68,9 +68,7 @@ upgrade_cura() {
         echo "Ultimaker Cura is already up to date."
     else
         OLD_ULTIMAKER_BINARY=$(ls ${HOME}/software/Ultimaker*.AppImage)
-        RELEASE_INFO=$(curl -s https://github.com/Ultimaker/Cura/releases/tag/${LATEST_CURA_RELEASE})
-        LATEST_CURA_NAME=$(echo "${RELEASE_INFO}" | grep -Eo Ultimaker.*.AppImage\< | grep -Eo Ultimaker.*.AppImage)
-        LATEST_CURA_LINK="https://github.com/Ultimaker/Cura/releases/download/${LATEST_CURA_RELEASE}/${LATEST_CURA_NAME}"
+        LATEST_CURA_LINK="https://github.com/Ultimaker/Cura/releases/download/${LATEST_CURA_RELEASE}/Ultimaker-Cura-${LATEST_CURA_RELEASE}-linux.AppImage"
         wget "${LATEST_CURA_LINK}" -O ./Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         chmod +x ~/software/Ultimaker_Cura-${LATEST_CURA_VERSION}.AppImage
         if [ ! -z "${OLD_ULTIMAKER_BINARY}" ]; then
