@@ -2,6 +2,7 @@
 
 # docker
 alias dprune="docker system prune -f && docker volume prune -f"
+alias dc="docker compose"
 
 # git
 git config --global core.autocrlf false
@@ -111,8 +112,9 @@ alias fix-audio="pulseaudio -k && sudo alsa force-reload"
 alias l="ls"
 alias ll="ls -lah"
 alias refresh="source ~/.bashrc"
-if [ "$HOSTNAME" = "ka-tower" ]; then
+if [ "$HOSTNAME" = "ka-new-tower" ]; then
     source ~/src/github.com/hacker-h/desktop-scripts/mqtt/tv.sh
+    source ~/src/github.com/hacker-h/desktop-scripts/audio/swaudio.sh
 fi
 
 
