@@ -28,13 +28,22 @@ pip() {
 
 
 
-# terraform
-alias tf="terraform"
-alias ta="terraform apply"
-alias td="terraform destroy"
-alias to="terraform output"
+# terraform/opentofu
+alias tf="tofu"
+alias ta="tofu apply"
+alias td="tofu destroy"
+alias to="tofu output"
+
+tofu() {
+    if [ "$1" = "apply" ] && [[ "$*" == *"-y"* ]]; then
+        command tofu $(echo "$@" | sed 's/-y/--auto-approve/g')
+    else
+        command tofu "$@"
+    fi
+}
+
 terraform() {
-    if [[ $@ == "apply"* ]] || [[ $@ == "destroy"* ]]; then
+    if [ "$1" = "apply" ] && [[ "$*" == *"-y"* ]]; then
         command terraform $(echo "$@" | sed 's/-y/--auto-approve/g')
     else
         command terraform "$@"
@@ -45,11 +54,6 @@ upgrade_dotfiles() {
     bash ~/src/github.com/hacker-h/dotfiles/install.bash
 }
 
-github_get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
-}
 upgrade_terraform() {
     curl -O $(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')_linux_amd64.zip")
     unzip ./terraform_*.zip
@@ -59,6 +63,17 @@ upgrade_terraform() {
     terraform version
 }
 
+upgrade_tofu() {
+    sudo apt-get update
+    sudo apt-get install -y tofu
+    tofu --version
+}
+
+github_get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
 
 upgrade_cura() {
     # Ultimaker Cura

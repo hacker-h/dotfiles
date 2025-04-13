@@ -9,7 +9,7 @@ sudo apt-get remove update-notifier -y
 
 sudo apt-get install -y apt-transport-https
 
-sudo apt-get install -y --reinstall ca-certificates tzdata
+sudo apt-get install -y --reinstall ca-certificates software-properties-common tzdata
 
 # configure time zone
 sudo ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
@@ -54,7 +54,7 @@ sudo apt-get install -y apt-file \
                         element-desktop \
                         filezilla \
                         git \
-			git-crypt \
+                        git-crypt \
                         htop \
                         inotify-tools \
                         iotop \
@@ -78,10 +78,10 @@ sudo apt-get install -y apt-file \
                         strace \
                         terminator \
                         torbrowser-launcher \
-			vagrant \
+                        vagrant \
                         vim \
                         virtualenv \
-			virtualbox \
+                        virtualbox \
                         vlc \
                         whois \
                         xdotool
@@ -102,7 +102,10 @@ sudo pip3 install pip --upgrade
 sudo pip3 install requests
 
 # install platformio CLI
-sudo pip install -U platformio
+sudo pip3 install -U platformio
+
+# install speedtest cli
+sudo pip3 install speedtest-cli
 
 # google chrome
 cd /tmp
@@ -119,27 +122,6 @@ sudo chmod +x ~/software/pcloud
 curl -fsSL https://get.docker.com | sh -
 sudo usermod -aG docker ${USER}
 
-# docker-compose
-export CRYPTOGRAPHY_DONT_BUILD_RUST=1
-sudo pip3 install docker-compose
-# if this fails => install cargo
-#sudo apt-get install build-essential libssl-dev libffi-dev python3-dev cargo
-#sudo pip3 install docker-compose
-# if this also fails => install rust:
-#curl https://sh.rustup.rs -sSf | sh -s -- -y
-#sudo pip3 install docker-compose
-
-#LATEST_CURA_VERSION=$(github_get_latest_release Ultimaker/Cura)
-## Cura Octoprint plugin
-#SHORT_CURA_VERSION=$(echo ${LATEST_CURA_VERSION} | cut -d'.' -f1-2)
-#mkdir -p ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-#cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-#git clone https://github.com/fieldOfView/Cura-OctoPrintPlugin ./OctoPrintPlugin || (cd ./OctoPrintPlugin && git pull origin $(git branch | cut -d' ' -f2))
-## Cura Calibration Shapes plugin
-#cd ~/.local/share/cura/${SHORT_CURA_VERSION}/plugins
-#git clone https://github.com/5axes/Calibration-Shapes ./Calibration-Shapes || (cd ./Calibration-Shapes && git pull origin $(git branch | cut -d' ' -f2))
-#
-#upgrade_cura
 upgrade_nextcloud_desktop
 
 # Golang dev environment
