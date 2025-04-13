@@ -122,6 +122,9 @@ sudo chmod +x ~/software/pcloud
 curl -fsSL https://get.docker.com | sh -
 sudo usermod -aG docker ${USER}
 
+# AWS CLI
+./install_aws_cli.sh
+
 upgrade_nextcloud_desktop
 
 # Golang dev environment
