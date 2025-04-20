@@ -165,7 +165,7 @@ RESET="\[\033[0m\]"
 PS1="\[$GREEN\]\u@\h:\[$BLUE\]\w\$(parse_git_branch)\[$RESET\]\$ "
 # if ping # TODO check for internet connectivity before curl
 
-alias inventar="libreoffice ${HOME}/nextcloudLocal/Inventar.ods"
+alias inventar="libreoffice ${HOME}/nextcloudLocal/Calc/Inventar.ods"
 alias inv=inventar
 alias upgrade_discord='wget -O /tmp/discord-latest.deb "https://discord.com/api/download/stable?platform=linux&format=deb" && apt install /tmp/discord-latest.deb'
 
