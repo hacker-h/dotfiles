@@ -115,7 +115,7 @@ upgrade_nextcloud_desktop() {
 
 
 reboot_to_windows() {
-    sudo grub-reboot 2 && sudo reboot
+    sudo grub-reboot 4 && sudo reboot
 }
 
 # vscode
@@ -165,7 +165,10 @@ RESET="\[\033[0m\]"
 PS1="\[$GREEN\]\u@\h:\[$BLUE\]\w\$(parse_git_branch)\[$RESET\]\$ "
 # if ping # TODO check for internet connectivity before curl
 
-alias inventar="libreoffice ${HOME}/nextcloudLocal/Calc/Inventar.ods"
+alias inventar="(libreoffice ${HOME}/nextcloudLocal/Calc/Inventar.ods &)"
 alias inv=inventar
+alias darts=~/src/github.com/hacker-h/desktop-scripts/play_darts.sh
 alias upgrade_discord='wget -O /tmp/discord-latest.deb "https://discord.com/api/download/stable?platform=linux&format=deb" && apt install /tmp/discord-latest.deb'
-
+bind 'set enable-bracketed-paste off'
+alias backup_paperless='rsync -azh --info=progress2 --partial --inplace --delete \
+      -e ssh sarah:/sarah-pool/documents/ ~/nextcloudLocal/backups/paperless/documents/'
