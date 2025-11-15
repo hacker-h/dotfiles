@@ -1,3 +1,14 @@
+#!/bin/bash
+# Ubuntu 24.04 LTS setup script
+# This script automates the installation and configuration of a new Ubuntu 24.04 system
+#
+# Changes for Ubuntu 24.04:
+# - Removed Python 3.8/3.9 installations (Ubuntu 24.04 comes with Python 3.12 by default)
+# - Updated all repository keys to use modern /etc/apt/keyrings/ format (apt-key is deprecated)
+# - Changed pip installations to use --user flag (best practice, no sudo needed)
+# - Removed obsolete virtualenv package (use python3 -m venv instead)
+# - KeePassXC PPA commented out (available in official repos, PPA only for latest version)
+
 set -eu
 shopt -s expand_aliases
 export DEBIAN_FRONTEND=noninteractive
@@ -7,7 +18,8 @@ echo "${USER} ALL=(ALL) NOPASSWD:ALL" | sudo EDITOR='tee -a' visudo
 
 sudo apt-get remove update-notifier -y
 
-sudo apt-get install -y apt-transport-https
+# Note: apt-transport-https is obsolete since Ubuntu 17.10 (APT 1.5+)
+# HTTPS support is built into apt by default in Ubuntu 24.04
 
 sudo apt-get install -y --reinstall ca-certificates software-properties-common tzdata
 
@@ -21,22 +33,28 @@ timedatectl set-local-rtc 1
 # create some directories
 mkdir -p ~/software ~/nextcloudLocal ~/nextcloudCryptomator ~/cryptomator ~/.keys
 
+# create keyrings directory for apt keys (modern way, apt-key is deprecated)
+sudo mkdir -p /etc/apt/keyrings
+
 # add apt repositories
-# keepassxc
-sudo add-apt-repository -y ppa:phoerious/keepassxc
-# cryptomator
+# keepassxc - available in official Ubuntu 24.04 repos, PPA only needed for latest version
+# sudo add-apt-repository -y ppa:phoerious/keepassxc
+
+# cryptomator - PPA or AppImage
 sudo add-apt-repository -y ppa:sebastian-stenzel/cryptomator
-# python 3.9
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-# vscodium
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/vscodium.gpg
-echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
-# signal
-curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
-echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee /etc/apt/sources.list.d/signal-xenial.list
-# element
-sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
+
+# vscodium - using modern signed-by format
+wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/keyrings/vscodium-archive-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/vscodium-archive-keyring.gpg] https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list
+
+# signal - using modern signed-by format (xenial repo works on all Ubuntu versions)
+wget -qO - https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor | sudo dd of=/etc/apt/keyrings/signal-desktop-keyring.gpg
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main" | sudo tee /etc/apt/sources.list.d/signal-xenial.list
+
+# element - already using modern format
+sudo wget -O /etc/apt/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
+
 # avidemux
 sudo add-apt-repository -y ppa:xtradeb/apps
 
@@ -64,14 +82,10 @@ sudo apt-get install -y apt-file \
                         nmap \
                         ntfs-3g \
                         pdfarranger \
-                        python3.8 \
-                        python3.8-dev \
-                        python3.8-distutils \
                         python3 \
                         python3-pip \
-                        python3.9 \
-                        python3.9-dev \
-                        python3.9-distutils \
+                        python3-dev \
+                        python3-venv \
                         signal-desktop \
                         snapd \
                         sshfs \
@@ -80,7 +94,6 @@ sudo apt-get install -y apt-file \
                         torbrowser-launcher \
                         vagrant \
                         vim \
-                        virtualenv \
                         virtualbox \
                         vlc \
                         whois \
@@ -91,21 +104,21 @@ curl https://raw.githubusercontent.com/hacker-h/dotfiles/master/install.bash | s
 
 source ~/.bash_aliases
 
-# pip for python 3.9
-curl https://bootstrap.pypa.io/get-pip.py | sudo python3.9 -
+# Note: Ubuntu 24.04 comes with Python 3.12 by default, no need for older versions
+# pip is already installed via python3-pip package above
+# To create virtual environments, use: python3 -m venv myenv
 
-# pip upgrade
-sudo pip3.9 install pip --upgrade
-sudo pip3 install pip --upgrade
+# upgrade pip to latest version
+python3 -m pip install --user --upgrade pip
 
 # install pip dependencies for torbrowser launcher
-sudo pip3 install requests
+python3 -m pip install --user requests
 
 # install platformio CLI
-sudo pip3 install -U platformio
+python3 -m pip install --user -U platformio
 
 # install speedtest cli
-sudo pip3 install speedtest-cli
+python3 -m pip install --user speedtest-cli
 
 # google chrome
 cd /tmp
@@ -272,45 +285,72 @@ sudo ubuntu-drivers autoinstall
 sudo usermod -a -G dialout ${USER}
 newgrp dialout
 
-# manual steps
+# ==============================================================================
+# MANUAL STEPS - Complete these after the script finishes
+# ==============================================================================
 
-# firefox -> firefox account -> login
-# => email code verification
-# trigger firefox sync
-
-# load ssh config from keepassxc => Desktop
-# mv ~/Desktop/config ~/.ssh/config
-
-# firefox:
-# enable menu bar
-# enable bookmarks toolbar
-# customize => remove clutter from ui
-# remove clutter from address bar in normal mode
-# Firefox Preferences -> Privacy & Security -> Uncheck:
-# -> Allow Firefox to send technical and interaction data to Mozilla
-# -> Allow Firefox to install and run studies
-# about:config => Accept => 'webgpu' enable
-# Youtube -> TLS Lock -> Autoplay -> Allow Audio and Video
-# KeepassXC => Tools => Settings => Browser Integration => check 'Firefox' => OK
-# KeepasXC Addon -> Connected Databases => Connect
-# KeepassXC Addon Settings -> check 'Automatically reconnect to KeePassXC'
-# Netflix -> TLS Lock -> Autoplay -> Allow Audio and Video
-# Github -> Login with keepassxc integration
-# type 2FA Code
-
-# launch Tor Browser => Download starts => installing
-# -> Connect
-# Tor Browser -> Preferences -> Tabs -> Ctrl+Tab cycles through tabs in recently used order
-
-# uMatrix -> Go to the dashboard -> Settings -> Enable cloud storage support
-# uMatrix -> My rules -> cloudPullAndMerge -> Commit
-# uBlock -> Open the dashboard -> Settings -> Enable cloud storage support
-# uBlock -> for each tab: cloudPullAndMerge -> Commit
-
-# Run nextcloud desktop sync client => login
-# restart nextcloud desktop sync client
-# Nextcloud App => Settings => General => check 'Launch on System Startup'
-
-# add pcloud sync: nextcloudLocal => pCloudRemote
-
-# generate + save ssh keys in ~/.keys
+echo ""
+echo "=========================================================================="
+echo "Script completed! Please complete the following manual steps:"
+echo "=========================================================================="
+echo ""
+echo "1. SSH CONFIGURATION"
+echo "   - Load ssh config from KeePassXC to Desktop"
+echo "   - Run: mv ~/Desktop/config ~/.ssh/config"
+echo "   - Generate and save SSH keys in ~/.keys/"
+echo "   - Set proper permissions: chmod 600 ~/.ssh/config ~/.keys/*"
+echo ""
+echo "2. FIREFOX SETUP"
+echo "   - Login to Firefox Account (requires email verification)"
+echo "   - Trigger Firefox sync to restore bookmarks and extensions"
+echo "   - Enable menu bar and bookmarks toolbar"
+echo "   - Customize toolbar: remove clutter from UI and address bar"
+echo "   - Privacy & Security settings:"
+echo "     * Uncheck 'Allow Firefox to send technical and interaction data to Mozilla'"
+echo "     * Uncheck 'Allow Firefox to install and run studies'"
+echo "   - about:config -> search 'webgpu' -> enable"
+echo "   - Site permissions (TLS Lock icon):"
+echo "     * YouTube: Autoplay -> Allow Audio and Video"
+echo "     * Netflix: Autoplay -> Allow Audio and Video"
+echo ""
+echo "3. KEEPASSXC SETUP"
+echo "   - Open KeePassXC database from ~/nextcloudLocal/keepassxc/db.kdbx"
+echo "   - Tools -> Settings -> Browser Integration -> check 'Firefox' -> OK"
+echo "   - Install KeePassXC browser extension in Firefox"
+echo "   - KeePassXC Addon -> Connected Databases -> Connect"
+echo "   - KeePassXC Addon Settings -> check 'Automatically reconnect to KeePassXC'"
+echo "   - Test login on GitHub using KeePassXC integration (2FA required)"
+echo ""
+echo "4. TOR BROWSER SETUP"
+echo "   - Launch Tor Browser (will download and install on first run)"
+echo "   - Click 'Connect' to establish Tor connection"
+echo "   - Preferences -> Tabs -> Enable 'Ctrl+Tab cycles through tabs in recently used order'"
+echo ""
+echo "5. BROWSER EXTENSIONS (via Firefox Sync)"
+echo "   - uMatrix: Dashboard -> Settings -> Enable cloud storage support"
+echo "   - uMatrix: My rules -> cloudPullAndMerge -> Commit"
+echo "   - uBlock Origin: Dashboard -> Settings -> Enable cloud storage support"
+echo "   - uBlock Origin: For each tab -> cloudPullAndMerge -> Commit"
+echo ""
+echo "6. NEXTCLOUD DESKTOP SETUP"
+echo "   - Run Nextcloud desktop sync client from ~/software/nextcloud-latest"
+echo "   - Login to Nextcloud account"
+echo "   - Restart Nextcloud client after initial sync"
+echo "   - Settings -> General -> Verify 'Launch on System Startup' is checked"
+echo "   - Verify sync folders are configured correctly (see ~/.config/Nextcloud/nextcloud.cfg)"
+echo ""
+echo "7. PCLOUD SETUP"
+echo "   - Launch pCloud from ~/software/pcloud"
+echo "   - Login and configure sync"
+echo "   - Add sync mapping: nextcloudLocal -> pCloudRemote"
+echo ""
+echo "8. CRYPTOMATOR"
+echo "   - Cryptomator should auto-unlock vault at ~/nextcloudCryptomator on startup"
+echo "   - Verify configuration in ~/.config/Cryptomator/settings.json"
+echo ""
+echo "9. REBOOT REQUIRED"
+echo "   - System reboot recommended to apply all changes"
+echo "   - Verify docker group membership with: groups"
+echo "   - Verify GPU driver installation after reboot"
+echo ""
+echo "=========================================================================="
