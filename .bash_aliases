@@ -172,3 +172,20 @@ alias upgrade_discord='wget -O /tmp/discord-latest.deb "https://discord.com/api/
 bind 'set enable-bracketed-paste off'
 alias backup_paperless='rsync -azh --info=progress2 --partial --inplace --delete \
       -e ssh sarah:/sarah-pool/documents/ ~/nextcloudLocal/backups/paperless/documents/'
+
+# yt-dlp functions
+upgrade_yt_dlp() {
+    if ! command -v yt-dlp &> /dev/null; then
+        echo "yt-dlp not found. Installing..."
+        sudo add-apt-repository -y ppa:tomtomtom/yt-dlp
+        sudo apt update
+        sudo apt install -y yt-dlp ffmpeg
+        echo "✓ yt-dlp and ffmpeg installed"
+    else
+        echo "Upgrading yt-dlp..."
+        sudo apt update
+        sudo apt install --only-upgrade -y yt-dlp
+        echo "✓ yt-dlp upgraded to $(yt-dlp --version | head -n1)"
+    fi
+}
+alias yt_dl_mp3='yt-dlp -x --audio-format mp3'
