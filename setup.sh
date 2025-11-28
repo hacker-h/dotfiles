@@ -39,11 +39,16 @@ sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages
 echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
 # avidemux
 sudo add-apt-repository -y ppa:xtradeb/apps
+# antigravity
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/antigravity-repo-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
 
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get remove ubuntu-advantage-tools -y
-sudo apt-get install -y apt-file \
+sudo apt-get install -y antigravity \
+                        apt-file \
                         avidemux-qt \
                         avidemux-jobs-qt \
                         bmon \
