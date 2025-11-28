@@ -268,6 +268,10 @@ sudo apt-file update
 # (re-) install suitable gpu driver
 sudo ubuntu-drivers autoinstall
 
+# assure dash is only on primary monitor
+gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor false
+gsettings set org.gnome.shell.extensions.dash-to-dock preferred-monitor -1
+
 # grant USB device permissions
 sudo usermod -a -G dialout ${USER}
 newgrp dialout

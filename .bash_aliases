@@ -118,6 +118,18 @@ reboot_to_windows() {
     sudo grub-reboot 4 && sudo reboot
 }
 
+sync_sarah_volumes() {
+  SRC="sarah:/sarah-pool/volumes/"
+  DST="/media/hacker/Externe5TB/backups/sarah-pool/volumes"
+  
+  if mountpoint -q /media/hacker/Externe5TB; then
+      rsync -avh --delete --info=progress2 --partial "$SRC" "$DST"
+  else
+      echo "Externe5TB ist nicht gemountet – Abbruch." >&2
+      exit 3
+  fi
+}
+
 # vscode
 alias scode="sudo code --user-data-dir ${HOME}"
 
@@ -172,3 +184,4 @@ alias upgrade_discord='wget -O /tmp/discord-latest.deb "https://discord.com/api/
 bind 'set enable-bracketed-paste off'
 alias backup_paperless='rsync -azh --info=progress2 --partial --inplace --delete \
       -e ssh sarah:/sarah-pool/documents/ ~/nextcloudLocal/backups/paperless/documents/'
+export ANTHROPIC_BASE_URL=http://localhost:8080
