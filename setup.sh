@@ -64,21 +64,13 @@ sudo apt-get install -y apt-file \
                         nmap \
                         ntfs-3g \
                         pdfarranger \
-                        python3.8 \
-                        python3.8-dev \
-                        python3.8-distutils \
-                        python3 \
-                        python3-pip \
-                        python3.9 \
-                        python3.9-dev \
-                        python3.9-distutils \
+                        python3-full \
                         signal-desktop \
                         snapd \
                         sshfs \
                         strace \
                         terminator \
                         torbrowser-launcher \
-                        vagrant \
                         vim \
                         virtualenv \
                         virtualbox \
@@ -100,6 +92,9 @@ sudo pip3 install pip --upgrade
 
 # install pip dependencies for torbrowser launcher
 sudo pip3 install requests
+
+# install yt-dlp
+upgrade_yt_dlp
 
 # install platformio CLI
 sudo pip3 install -U platformio
