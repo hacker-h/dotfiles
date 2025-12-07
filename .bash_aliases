@@ -201,3 +201,4 @@ upgrade_yt_dlp() {
     fi
 }
 alias yt_dl_mp3='yt-dlp -x --audio-format mp3'
+alias backup_nodered='/home/hacker/test/nodered/backup_nodered.sh'
